@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh">
+<!--
+    Author:Hakiysu
+    Contact:Hakiysu@outlook.com
+    Date:2023-05-20
+    Comment:This is a simple register page, using regex to check the input.Also use css to make it look better.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册页面</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #8adffc;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            width: 400px;
+            margin: 50px auto 0;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            width: auto;
+            text-align: left;
+        }
+
+        input {
+            display: inline-block;
+            width: 100%;
+            height: 30px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 0 5px;
+            margin-top: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            height: 35px;
+            background-color: #1b77f6;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .formItem {
+            margin-bottom: 10px;
+        }
+
+        .formItem input:focus {
+            border-color: #00fd7b;
+        }
+
+        .formItem tip {
+            display: block;
+            visibility: hidden;
+        }
+
+        tip {
+            display: inline-block;
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            font-size: 12px;
+            color: #f60;
+            border: 1px solid #f60;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+    </style>
+
+</head>
+<body>
+<div id="container">
+    <h2>用户注册</h2>
+    <form method="post">
+        <div class="formItem">
+            <label for="username">用户名：</label>
+            <input type="text" name="username" id="username" placeholder="请输入用户名" required>
+            <tip>用户名要求：长度为6-12位</tip>
+        </div>
+        <div class="formItem">
+            <label for="password">密码：</label>
+            <input type="password" name="password" id="password" placeholder="请输入密码" required>
+            <tip>密码要求:长度为8-16位</tip>
+        </div>
+        <div class="formItem">
+            <label for="password2">确认密码：</label>
+            <input type="password" name="password2" id="password2" placeholder="请再次输入密码" required>
+            <tip>两次密码要一致!</tip>
+        </div>
+        <div class="formItem">
+            <label for="email">邮箱：</label>
+            <input type="email" name="email" id="email" placeholder="请输入邮箱" required>
+            <tip>请按格式输入正确的邮箱</tip>
+        </div>
+        <input type="submit" value="注册">
+    </form>
+</div>
+</body>
+<script>
+    //get the button and add event listener
+    const button = document.querySelector('input[type="submit"]');
+    button.addEventListener('click', function (e) {
+        //prevent the default behavior of the button
+        e.preventDefault();
+        //get the value of the input
+        const username = document.querySelector('#username').value;
+        const password = document.querySelector('#password').value;
+        const password2 = document.querySelector('#password2').value;
+        const email = document.querySelector('#email').value;
+        const tip = document.querySelectorAll('tip');
+        const reg = {
+            //regex for username, password and email
+            username: /^[a-zA-Z0-9_-]{6,12}$/,
+            password: /^[a-zA-Z0-9_-]{8,16}$/,
+            email: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+        };
+        //start checking,if any of the input is invalid, show the tip
+        if (!reg.username.test(username)) {
+            tip[0].style.visibility = 'visible';
+        } else {
+            tip[0].style.visibility = 'hidden';
+        }
+        if (!reg.password.test(password)) {
+            tip[1].style.visibility = 'visible';
+        } else {
+            tip[1].style.visibility = 'hidden';
+        }
+        //first check if the password is valid and not null, then check if the two passwords are the same
+        if (!reg.password.test(password2) || password2 !== password) {
+            tip[2].style.visibility = 'visible';
+        } else {
+            tip[2].style.visibility = 'hidden';
+        }
+        if (!reg.email.test(email)) {
+            tip[3].style.visibility = 'visible';
+        } else {
+            tip[3].style.visibility = 'hidden';
+        }
+    });
+</script>
+</html>
